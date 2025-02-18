@@ -1,11 +1,9 @@
 namespace WebApi.Models.Users;
 
 using System.ComponentModel.DataAnnotations;
-using WebApi.Entities;
 
 public class CreateRequest
 {
-
     [Required]
     public string FirstName { get; set; }
 
@@ -15,5 +13,6 @@ public class CreateRequest
     [Required]
     [EmailAddress]
     public string Email { get; set; }
+    public Byte[]? PhotoUrl { get; set; }
 
 }

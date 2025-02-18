@@ -9,6 +9,7 @@ public class UpdateRequest
 
     [EmailAddress]
     public string Email { get; set; }
+    public Byte[]? PhotoUrl { get; set; }
 
 
     private string replaceEmptyWithNull(string value)

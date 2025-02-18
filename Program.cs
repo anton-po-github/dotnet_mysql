@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
     var services = builder.Services;
     var env = builder.Environment;
 
+    services.AddSwaggerGen();
+
     services.AddDbContext<DataContext>();
     services.AddCors();
     services.AddControllers().AddJsonOptions(x =>
@@ -30,6 +32,14 @@ var app = builder.Build();
 // configure HTTP request pipeline
 {
     // global cors policy
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
     app.UseCors(x => x
         .AllowAnyOrigin()
         .AllowAnyMethod()
