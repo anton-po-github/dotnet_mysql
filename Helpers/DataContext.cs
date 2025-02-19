@@ -5,17 +5,18 @@ using WebApi.Entities;
 
 public class DataContext : DbContext
 {
-    protected readonly IConfiguration Configuration;
+    protected readonly IConfiguration _config;
 
     public DataContext(IConfiguration configuration)
     {
-        Configuration = configuration;
+        _config = configuration;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         // connect to mysql with connection string from app settings
-        var connectionString = Configuration.GetConnectionString("ApiDatabase");
+
+        var connectionString = _config.GetConnectionString("ApiDatabase");
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).
         UseSnakeCaseNamingConvention();
     }
