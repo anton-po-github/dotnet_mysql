@@ -1,7 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.Models.Users;
-
 public class UpdateRequest
 {
     public string FirstName { get; set; }

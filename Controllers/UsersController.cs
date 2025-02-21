@@ -1,19 +1,16 @@
-﻿namespace WebApi.Controllers;
-
+﻿
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models.Users;
-using WebApi.Services;
 
 [ApiController]
 [Route("api/v1/[controller]")]
 public class UsersController : ControllerBase
 {
-    private IUserService _userService;
+    private UserService _userService;
     private IMapper _mapper;
 
     public UsersController(
-        IUserService userService,
+        UserService userService,
         IMapper mapper)
     {
         _userService = userService;

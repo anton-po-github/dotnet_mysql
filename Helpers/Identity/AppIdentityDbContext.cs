@@ -1,21 +1,20 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-public class DataContext : DbContext
+public class AppIdentityDbContext : IdentityDbContext<AppUser>
 {
     protected readonly IConfiguration _config;
 
-    public DataContext(IConfiguration configuration)
+    public AppIdentityDbContext(IConfiguration configuration)
     {
         _config = configuration;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        // connect to mysql with connection string from app settings
-
-        var connectionString = _config.GetConnectionString("ApiDatabase");
+        var connectionString = _config.GetConnectionString("IdentityConnection");
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).
         UseSnakeCaseNamingConvention();
     }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<AppUser> Identity { get; set; }
 }
