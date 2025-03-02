@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 
-
 public class UserService
 {
-    private DataContext _context;
+    private UsersContext _context;
     private readonly IMapper _mapper;
 
     public UserService(
-        DataContext context,
+        UsersContext context,
         IMapper mapper)
     {
         _context = context;

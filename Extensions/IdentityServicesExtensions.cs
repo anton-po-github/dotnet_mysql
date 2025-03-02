@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-
 public static class IdentityServicesExtensions
 {
     public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
@@ -11,7 +10,7 @@ public static class IdentityServicesExtensions
         var builder = services.AddIdentityCore<AppUser>();
 
         builder = new IdentityBuilder(builder.UserType, builder.Services);
-        builder.AddEntityFrameworkStores<AppIdentityDbContext>();
+        builder.AddEntityFrameworkStores<IdentityContext>();
         builder.AddSignInManager<SignInManager<AppUser>>();
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

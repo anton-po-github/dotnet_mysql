@@ -11,14 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 
     services.AddSwaggerGen();
 
-    services.AddDbContext<DataContext>();
-    services.AddDbContext<AppIdentityDbContext>();
+    services.AddDbContext<UsersContext>();
+    services.AddDbContext<ProductContext>();
+    services.AddDbContext<IdentityContext>();
 
-    // services.AddApplicationServices(builder.Configuration);
     services.AddIdentityServices(builder.Configuration);
 
     services.AddScoped<TokenService>();
     services.AddScoped<UserService>();
+    services.AddScoped<ProductService>();
 
     services.AddCors();
     services.AddControllers().AddJsonOptions(x =>
@@ -37,19 +38,19 @@ var app = builder.Build();
 
 using var scope = app.Services.CreateScope();
 var serviceProvider = scope.ServiceProvider;
-var context = serviceProvider.GetRequiredService<DataContext>();
+var usersContext = serviceProvider.GetRequiredService<UsersContext>();
 var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-var identityContext = serviceProvider.GetRequiredService<AppIdentityDbContext>();
+var identityContext = serviceProvider.GetRequiredService<IdentityContext>();
 var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
 var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
 try
 {
-    await context.Database.MigrateAsync();
+    await usersContext.Database.MigrateAsync();
     // await StoreContextSeed.SeedAsync(context, loggerFactory);
 
     await identityContext.Database.MigrateAsync();
     //await StoreContextSeed.SeedAsync(context);
-    await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
+    await IdentityContextSeed.SeedUsersAsync(userManager);
 }
 catch (Exception ex)
 {

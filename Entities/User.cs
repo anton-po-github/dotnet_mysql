@@ -1,6 +1,11 @@
 
 using Microsoft.AspNetCore.Identity;
 
+public class AppUser : IdentityUser
+{
+    public string DisplayName { get; set; }
+}
+
 public class User
 {
     public int Id { get; set; }
@@ -15,10 +20,7 @@ public class User
     { get; set; }
     public Byte[]? PhotoUrl { get; set; }
 }
-public class AppUser : IdentityUser
-{
-    public string DisplayName { get; set; }
-}
+
 public class LoginDto
 {
     required

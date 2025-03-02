@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace dotnet_mysql_crud.Migrations
 {
-    [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ProductContext))]
+    partial class ProductContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace dotnet_mysql_crud.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("User", b =>
+            modelBuilder.Entity("Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,29 +29,29 @@ namespace dotnet_mysql_crud.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Email")
+                    b.Property<string>("Discount")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("email");
+                        .HasColumnName("discount");
 
-                    b.Property<string>("FirstName")
+                    b.Property<int>("Price")
+                        .HasColumnType("int")
+                        .HasColumnName("price");
+
+                    b.Property<string>("ProductDescription")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("first_name");
+                        .HasColumnName("product_description");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("last_name");
-
-                    b.Property<byte[]>("PhotoUrl")
-                        .HasColumnType("longblob")
-                        .HasColumnName("photo_url");
+                        .HasColumnName("product_name");
 
                     b.HasKey("Id")
-                        .HasName("pk_users");
+                        .HasName("pk_products");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("products", (string)null);
                 });
 #pragma warning restore 612, 618
         }

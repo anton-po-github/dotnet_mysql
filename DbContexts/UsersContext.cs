@@ -1,17 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-public class DataContext : DbContext
+public class UsersContext : DbContext
 {
     protected readonly IConfiguration _config;
 
-    public DataContext(IConfiguration configuration)
+    public UsersContext(IConfiguration configuration)
     {
         _config = configuration;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        // connect to mysql with connection string from app settings
-
         var connectionString = _config.GetConnectionString("ApiDatabase");
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).
         UseSnakeCaseNamingConvention();

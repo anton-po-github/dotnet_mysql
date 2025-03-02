@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-public class AppIdentityDbContext : IdentityDbContext<AppUser>
+public class IdentityContext : IdentityDbContext<AppUser>
 {
     protected readonly IConfiguration _config;
 
-    public AppIdentityDbContext(IConfiguration configuration)
+    public IdentityContext(IConfiguration configuration)
     {
         _config = configuration;
     }

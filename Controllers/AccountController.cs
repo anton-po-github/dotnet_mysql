@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-
 [ApiController]
 [Route("api/[controller]")]
 public class AccountController : ControllerBase
@@ -78,6 +77,9 @@ public class AccountController : ControllerBase
             Email = registerDto.Email,
             UserName = registerDto.Email
         };
+
+        if (_userManager.Users.Any(x => x.Email == registerDto.Email))
+            throw new AppException("User with the email '" + registerDto.Email + "' already exists");
 
         var result = await _userManager.CreateAsync(user, registerDto.Password);
 
