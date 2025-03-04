@@ -10,7 +10,7 @@ public class UsersContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        var connectionString = _config.GetConnectionString("ApiDatabase");
+        var connectionString = _config.GetConnectionString("UsersDatabase");
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).
         UseSnakeCaseNamingConvention();
     }

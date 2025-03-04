@@ -18,7 +18,7 @@ public class User
     required
     public string Email
     { get; set; }
-    public Byte[]? PhotoUrl { get; set; }
+    // public Byte[]? PhotoUrl { get; set; }
 }
 
 public class LoginDto

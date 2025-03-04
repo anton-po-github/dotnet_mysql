@@ -11,7 +11,7 @@ public class IdentityContext : IdentityDbContext<AppUser>
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        var connectionString = _config.GetConnectionString("IdentityConnection");
+        var connectionString = _config.GetConnectionString("IdentityDatabase");
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).
         UseSnakeCaseNamingConvention();
     }
