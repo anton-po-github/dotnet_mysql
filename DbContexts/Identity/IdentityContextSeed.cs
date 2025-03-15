@@ -2,16 +2,14 @@ using Microsoft.AspNetCore.Identity;
 
 public class IdentityContextSeed
 {
-    public static async Task SeedUsersAsync(UserManager<AppUser> userManager)
+    public static async Task SeedUsersAsync(UserManager<IdentityUser> userManager)
     {
         if (!userManager.Users.Any())
         {
-            var user = new AppUser
+            var user = new IdentityUser
             {
-                DisplayName = "Bob",
-                Email = "bob@test.com",
-                UserName = "bob@test.com",
-
+                UserName = "Bob",
+                Email = "bob@test.com"
             };
 
             await userManager.CreateAsync(user, "Pa$$w0rd");

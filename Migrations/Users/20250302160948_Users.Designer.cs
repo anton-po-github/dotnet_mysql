@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace dotnet_mysql_crud.Migrations.Users
+namespace dotnet_mysql.Migrations.Users
 {
     [DbContext(typeof(UsersContext))]
     [Migration("20250302160948_Users")]

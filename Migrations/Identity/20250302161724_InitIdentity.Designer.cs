@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace dotnet_mysql_crud.Migrations.Identity
+namespace dotnet_mysql.Migrations.Identity
 {
     [DbContext(typeof(IdentityContext))]
     [Migration("20250302161724_InitIdentity")]

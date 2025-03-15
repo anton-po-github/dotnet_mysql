@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace dotnet_mysql_crud.Migrations.Users
+namespace dotnet_mysql.Migrations.Users
 {
     /// <inheritdoc />
     public partial class Users : Migration

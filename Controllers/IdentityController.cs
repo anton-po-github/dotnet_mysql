@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AccountController : ControllerBase
+public class IdentityController : ControllerBase
 {
-    private readonly UserManager<AppUser> _userManager;
-    private readonly SignInManager<AppUser> _signInManager;
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<IdentityUser> _signInManager;
     private readonly TokenService _tokenService;
     private readonly IMapper _mapper;
-    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, TokenService tokenService, IMapper mapper)
+    public IdentityController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, TokenService tokenService, IMapper mapper)
     {
         _mapper = mapper;
         _tokenService = tokenService;
@@ -31,13 +31,13 @@ public class AccountController : ControllerBase
         {
             Email = user.Email,
             Token = _tokenService.CreateToken(user),
-            DisplayName = user.DisplayName
+            UserName = user.UserName
         };
     }
 
     [Authorize]
     [HttpGet("all")]
-    public async Task<ActionResult<List<AppUser>>> GetAllUsers()
+    public async Task<ActionResult<List<IdentityUser>>> GetAllUsers()
     {
         return await _userManager.Users.ToListAsync();
     }
@@ -64,18 +64,17 @@ public class AccountController : ControllerBase
         {
             Email = user.Email,
             Token = _tokenService.CreateToken(user),
-            DisplayName = user.DisplayName
+            UserName = user.UserName
         };
     }
 
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
-        var user = new AppUser
+        var user = new IdentityUser
         {
-            DisplayName = registerDto.DisplayName,
+            UserName = registerDto.UserName,
             Email = registerDto.Email,
-            UserName = registerDto.Email
         };
 
         if (_userManager.Users.Any(x => x.Email == registerDto.Email))
@@ -89,7 +88,7 @@ public class AccountController : ControllerBase
         {
             Email = user.Email,
             Token = _tokenService.CreateToken(user),
-            DisplayName = user.DisplayName
+            UserName = user.UserName
         };
     }
 

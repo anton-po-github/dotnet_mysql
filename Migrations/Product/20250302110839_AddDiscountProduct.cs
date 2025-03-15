@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace dotnet_mysql_crud.Migrations
+namespace dotnet_mysql.Migrations
 {
     /// <inheritdoc />
     public partial class AddDiscountProduct : Migration

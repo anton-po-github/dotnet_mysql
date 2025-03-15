@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace dotnet_mysql_crud.Migrations
+namespace dotnet_mysql.Migrations
 {
     /// <inheritdoc />
     public partial class Product : Migration

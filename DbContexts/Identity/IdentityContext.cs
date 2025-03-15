@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-public class IdentityContext : IdentityDbContext<AppUser>
+public class IdentityContext : IdentityDbContext<IdentityUser>
 {
     protected readonly IConfiguration _config;
 
@@ -12,9 +12,11 @@ public class IdentityContext : IdentityDbContext<AppUser>
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         var connectionString = _config.GetConnectionString("IdentityDatabase");
+
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).
+
         UseSnakeCaseNamingConvention();
     }
 
-    public DbSet<AppUser> Identity { get; set; }
+    public DbSet<IdentityUser> Identity { get; set; }
 }

@@ -41,7 +41,7 @@ var serviceProvider = scope.ServiceProvider;
 var usersContext = serviceProvider.GetRequiredService<UsersContext>();
 var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
 var identityContext = serviceProvider.GetRequiredService<IdentityContext>();
-var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
 try
 {

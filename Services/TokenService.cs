@@ -12,12 +12,12 @@ public class TokenService
         _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]));
     }
 
-    public string CreateToken(AppUser user)
+    public string CreateToken(IdentityUser user)
     {
         var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.GivenName, user.DisplayName)
+                new Claim(ClaimTypes.GivenName, user.UserName)
             };
 
         var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

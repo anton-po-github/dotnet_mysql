@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace dotnet_mysql_crud.Migrations
+namespace dotnet_mysql.Migrations
 {
     [DbContext(typeof(ProductContext))]
     [Migration("20250302110629_Product")]

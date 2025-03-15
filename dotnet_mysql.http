@@ -1,0 +1,6 @@
+@dotnet_mysql_HostAddress = http://localhost:5135
+
+GET {{dotnet_mysql_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

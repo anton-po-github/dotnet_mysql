@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace dotnet_mysql_crud.Migrations.Identity
+namespace dotnet_mysql.Migrations.Identity
 {
     /// <inheritdoc />
     public partial class InitIdentity : Migration
