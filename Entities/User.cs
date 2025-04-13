@@ -1,8 +1,9 @@
-public class IdentityUser : Microsoft.AspNetCore.Identity.IdentityUser { }
+using System.ComponentModel.DataAnnotations;
 
 public class User
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
@@ -26,4 +27,5 @@ public class UserDto
     public string Email { get; set; }
     public string UserName { get; set; }
     public string Token { get; set; }
+    public IList<string> Role { get; set; }
 }

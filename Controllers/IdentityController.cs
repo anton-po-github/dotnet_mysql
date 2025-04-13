@@ -21,7 +21,14 @@ public class IdentityController : ControllerBase
 
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
+    [HttpGet("secret")]
+    public IActionResult SecretEndpoint()
+    {
+        return Ok("You are an admin, congratulations!");
+    }
+
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
@@ -30,12 +37,13 @@ public class IdentityController : ControllerBase
         return new UserDto
         {
             Email = user.Email,
-            Token = _tokenService.CreateToken(user),
-            UserName = user.UserName
+            Token = await _tokenService.CreateToken(user),
+            UserName = user.UserName,
+            Role = await _userManager.GetRolesAsync(user)
         };
     }
 
-    [Authorize]
+    [Authorize(Roles = "User")]
     [HttpGet("all")]
     public async Task<ActionResult<List<IdentityUser>>> GetAllUsers()
     {
@@ -63,8 +71,9 @@ public class IdentityController : ControllerBase
         return new UserDto
         {
             Email = user.Email,
-            Token = _tokenService.CreateToken(user),
-            UserName = user.UserName
+            Token = await _tokenService.CreateToken(user),
+            UserName = user.UserName,
+            Role = await _userManager.GetRolesAsync(user)
         };
     }
 
@@ -81,14 +90,17 @@ public class IdentityController : ControllerBase
             throw new AppException("User with the email '" + registerDto.Email + "' already exists");
 
         var result = await _userManager.CreateAsync(user, registerDto.Password);
-
         if (!result.Succeeded) return BadRequest(new ApiResponse(400));
+
+        var addUserToRoleResult = await _userManager.AddToRoleAsync(user, "Admin");
+        if (!addUserToRoleResult.Succeeded) throw new AppException($"Create user succeeded but could not add user to role {addUserToRoleResult?.Errors?.First()?.Description}");
 
         return new UserDto
         {
             Email = user.Email,
-            Token = _tokenService.CreateToken(user),
-            UserName = user.UserName
+            Token = await _tokenService.CreateToken(user),
+            UserName = user.UserName,
+            Role = await _userManager.GetRolesAsync(user)
         };
     }
 

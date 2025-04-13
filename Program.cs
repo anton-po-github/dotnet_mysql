@@ -36,6 +36,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
+using (var scopeRole = app.Services.CreateScope())
+{
+    await IdentitySeeder.SeedRolesAsync(scopeRole.ServiceProvider);
+}
+
 using var scope = app.Services.CreateScope();
 var serviceProvider = scope.ServiceProvider;
 var usersContext = serviceProvider.GetRequiredService<UsersContext>();
