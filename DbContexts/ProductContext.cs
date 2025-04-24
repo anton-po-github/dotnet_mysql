@@ -11,7 +11,9 @@ public class ProductContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         var connectionString = _config.GetConnectionString("ProductDatabase");
+
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)).
+
         UseSnakeCaseNamingConvention();
     }
 
