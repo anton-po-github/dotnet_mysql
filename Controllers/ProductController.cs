@@ -3,7 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/[controller]")]
 public class ProductController : ControllerBase
 {
     private ProductService _productService;
@@ -21,6 +21,7 @@ public class ProductController : ControllerBase
     public IActionResult GetAll()
     {
         var products = _productService.GetAll();
+
         return Ok(products);
     }
 

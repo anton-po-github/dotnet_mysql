@@ -34,6 +34,7 @@ public class UserService
 
         // save user
         _context.Users.Add(user);
+
         _context.SaveChanges();
     }
 
@@ -63,7 +64,9 @@ public class UserService
     private User getUser(int id)
     {
         var user = _context.Users.Find(id);
+
         if (user == null) throw new KeyNotFoundException("User not found");
+
         return user;
     }
 }
