@@ -37,15 +37,10 @@ jobs:
           docker tag dotnet-mysql-app:latest ${{ secrets.ECR_REPOSITORY }}:latest
           docker push ${{ secrets.ECR_REPOSITORY }}:latest
 
-      - name: "Debug: print cluster and service"
-        run: |
-          echo ">>> ECS_CLUSTER='${{ secrets.ECS_CLUSTER }}'"
-          echo ">>> ECS_SERVICE='${{ secrets.ECS_SERVICE }}'"
-
       - name: Update ECS service
         run: |
           aws ecs update-service \
-            --cluster ${{ secrets.ECS_CLUSTER }} \
-            --service ${{ secrets.ECS_SERVICE }} \
+            --cluster dotnet-mysql-cluster \
+            --service dotnet-mysql-service \
             --force-new-deployment \
             --region ${{ secrets.AWS_REGION }}
