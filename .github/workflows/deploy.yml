@@ -19,6 +19,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region:            ${{ secrets.AWS_REGION }}
 
+      - name: "Debug: print cluster and service"
+        run: |
+          echo "ECS_CLUSTER='${{ secrets.ECS_CLUSTER }}'"
+          echo "ECS_SERVICE='${{ secrets.ECS_SERVICE }}'"
+
       - name: Login to Amazon ECR
         run: |
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
