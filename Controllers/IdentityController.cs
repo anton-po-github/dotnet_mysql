@@ -18,7 +18,6 @@ public class IdentityController : ControllerBase
         _tokenService = tokenService;
         _signInManager = signInManager;
         _userManager = userManager;
-
     }
 
     [Authorize(Roles = "Admin")]
