@@ -7,6 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -14,9 +15,9 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region:            ${{ secrets.AWS_REGION }}
 
       - name: Login to Amazon ECR
         run: |
@@ -24,10 +25,9 @@ jobs:
             | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
       - name: Build Docker image
-        run: |
-          docker build -t dotnet-mysql-app:latest .
+        run: docker build -t dotnet-mysql-app:latest .
 
-      - name: Tag and push to ECR
+      - name: Tag & Push to ECR
         run: |
           docker tag dotnet-mysql-app:latest ${{ secrets.ECR_REPOSITORY }}:latest
           docker push ${{ secrets.ECR_REPOSITORY }}:latest
@@ -35,7 +35,7 @@ jobs:
       - name: Update ECS service
         run: |
           aws ecs update-service \
-            --cluster dotnet-mysql-cluster \
-            --service dotnet-mysql-service \
+            --cluster ${{ secrets.ECS_CLUSTER }} \
+            --service ${{ secrets.ECS_SERVICE }} \
             --force-new-deployment \
             --region ${{ secrets.AWS_REGION }}
