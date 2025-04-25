@@ -31,7 +31,7 @@ public class TokenService
         var tokeDesc = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.Now.AddDays(7),
+            Expires = DateTime.UtcNow.AddYears(10),
             SigningCredentials = creds,
             Issuer = _config["Token:Issuer"]
         };

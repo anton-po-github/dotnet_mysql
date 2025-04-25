@@ -1,87 +1,133 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // add services to DI container
+
+var services = builder.Services;
+var env = builder.Environment;
+
+// 1. Configure CORS to allow both local dev and production Angular apps
+services.AddCors(options =>
 {
-    var services = builder.Services;
-    var env = builder.Environment;
-
-    services.AddSwaggerGen();
-
-    services.AddDbContext<UsersContext>();
-    services.AddDbContext<ProductContext>();
-    services.AddDbContext<IdentityContext>();
-
-    services.AddIdentityServices(builder.Configuration);
-
-    services.AddScoped<TokenService>();
-    services.AddScoped<UserService>();
-    services.AddScoped<ProductService>();
-
-    services.AddCors();
-    services.AddControllers().AddJsonOptions(x =>
+    options.AddPolicy("CorsPolicy", policy =>
     {
-        // serialize enums as strings in api responses (e.g. Role)
-        x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-
-        // ignore omitted parameters on models to enable optional params (e.g. User update)
-        x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        policy
+            .WithOrigins("http://localhost:4200", "https://ng-dotnet.web.app")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
-    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+});
 
-}
+services.AddSwaggerGen();
+
+services.AddDbContext<UsersContext>();
+services.AddDbContext<ProductContext>();
+services.AddDbContext<IdentityContext>();
+
+services.AddIdentityServices(builder.Configuration);
+
+services.AddScoped<TokenService>();
+services.AddScoped<UserService>();
+services.AddScoped<ProductService>();
+
+services.AddCors();
+services.AddControllers().AddJsonOptions(x =>
+{
+    // serialize enums as strings in api responses (e.g. Role)
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+
+    // ignore omitted parameters on models to enable optional params (e.g. User update)
+    x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseStatusCodePagesWithReExecute("/errors/{0}");
+
+app.UseRouting();
+
+app.UseCors("CorsPolicy");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    var sp = scope.ServiceProvider;
+    var logger = sp.GetRequiredService<ILogger<Program>>();
+    try
+    {
+        // Apply pending migrations only in Development environment
+        var contexts = new DbContext[]
+        {
+            sp.GetRequiredService<UsersContext>(),
+            sp.GetRequiredService<IdentityContext>(),
+            sp.GetRequiredService<ProductContext>(),
+        };
+
+        foreach (var ctx in contexts)
+        {
+            var pending = ctx.Database.GetPendingMigrations();
+            if (pending.Any())
+            {
+                logger.LogInformation("Applying {Count} pending migrations for {Context}", pending.Count(), ctx.GetType().Name);
+                ctx.Database.Migrate();
+                logger.LogInformation("Migrations applied to {Context}", ctx.GetType().Name);
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Error applying migrations in Development");
+    }
+}
 
 using (var scopeRole = app.Services.CreateScope())
 {
     await IdentitySeeder.SeedRolesAsync(scopeRole.ServiceProvider);
 }
 
-using var scope = app.Services.CreateScope();
-var serviceProvider = scope.ServiceProvider;
-var usersContext = serviceProvider.GetRequiredService<UsersContext>();
-var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-var identityContext = serviceProvider.GetRequiredService<IdentityContext>();
-var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-try
+using (var scope = app.Services.CreateScope())
 {
-    await usersContext.Database.MigrateAsync();
-    // await StoreContextSeed.SeedAsync(context, loggerFactory);
-
-    await identityContext.Database.MigrateAsync();
-    //await StoreContextSeed.SeedAsync(context);
-    await IdentityContextSeed.SeedUsersAsync(userManager);
-}
-catch (Exception ex)
-{
-    logger.LogError(ex, "An error occured during migration");
-}
-
-// configure HTTP request pipeline
-{
-    // global cors policy
-
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
+    var servicesProvider = scope.ServiceProvider;
+    var logger = servicesProvider.GetRequiredService<ILogger<Program>>();
+    try
     {
-        app.UseSwagger();
-        app.UseSwaggerUI();
+        var userManager = servicesProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+        await IdentityContextSeed.SeedUsersAsync(userManager);
+        await IdentitySeeder.SeedRolesAsync(servicesProvider);
     }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred during database migration or seeding");
+    }
+}
 
-    app.UseCors(x => x
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader());
-
-    // global error handler
-    app.UseMiddleware<ErrorHandlerMiddleware>();
-
-    app.MapControllers();
+// 12. Swagger UI & HTTPS redirection in Development
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.UseHttpsRedirection();
 }
 
 app.Run();
