@@ -1,0 +1,37 @@
+name: Build and Deploy .NET 9 App to Azure Web App
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET 9.0 SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build and publish
+        run: dotnet publish -c Release -o publish_output
+
+      - name: Azure Login via Service Principal
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        # альтернатива: OpenID Connect (OIDC) вместо секретов :contentReference[oaicite:7]{index=7}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.WEBAPP_NAME }}
+          slot-name: production
+          package: publish_output
