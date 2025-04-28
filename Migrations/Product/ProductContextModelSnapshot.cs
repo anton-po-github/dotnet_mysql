@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace dotnet_mysql.Migrations
+namespace dotnet_mysql.Migrations.Product
 {
     [DbContext(typeof(ProductContext))]
     partial class ProductContextModelSnapshot : ModelSnapshot
@@ -19,6 +19,35 @@ namespace dotnet_mysql.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("NewProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int")
+                        .HasColumnName("price");
+
+                    b.HasKey("Id")
+                        .HasName("pk_new_product");
+
+                    b.ToTable("new_product", (string)null);
+                });
 
             modelBuilder.Entity("Product", b =>
                 {

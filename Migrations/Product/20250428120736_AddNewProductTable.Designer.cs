@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace dotnet_mysql.Migrations
+namespace dotnet_mysql.Migrations.Product
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20250302110629_Product")]
-    partial class Product
+    [Migration("20250428120736_AddNewProductTable")]
+    partial class AddNewProductTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,35 @@ namespace dotnet_mysql.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("NewProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int")
+                        .HasColumnName("price");
+
+                    b.HasKey("Id")
+                        .HasName("pk_new_product");
+
+                    b.ToTable("new_product", (string)null);
+                });
+
             modelBuilder.Entity("Product", b =>
                 {
                     b.Property<int>("Id")
@@ -31,6 +60,11 @@ namespace dotnet_mysql.Migrations
                         .HasColumnName("id");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Discount")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("discount");
 
                     b.Property<int>("Price")
                         .HasColumnType("int")

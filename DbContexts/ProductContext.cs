@@ -18,4 +18,5 @@ public class ProductContext : DbContext
     }
 
     public DbSet<Product> Products { get; set; }
+    public DbSet<NewProduct> NewProduct { get; set; }
 }

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace dotnet_mysql.Migrations
+namespace dotnet_mysql.Migrations.Product
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20250302110839_AddDiscountProduct")]
-    partial class AddDiscountProduct
+    [Migration("20250428120647_InitProductContext")]
+    partial class InitProductContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
