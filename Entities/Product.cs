@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 public class Product
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string ProductName { get; set; }
     public string ProductDescription { get; set; }
     public string Discount { get; set; }

@@ -1,11 +1,11 @@
 using AutoMapper;
 
-public class ProductService
+public class ProductsService
 {
     private ProductsContext _context;
     private readonly IMapper _mapper;
 
-    public ProductService(
+    public ProductsService(
         ProductsContext context,
         IMapper mapper)
     {

@@ -33,7 +33,7 @@ services.AddIdentityServices(builder.Configuration);
 
 services.AddScoped<TokenService>();
 services.AddScoped<UserService>();
-services.AddScoped<ProductService>();
+services.AddScoped<ProductsService>();
 
 services.AddCors();
 services.AddControllers().AddJsonOptions(x =>

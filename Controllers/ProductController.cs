@@ -4,23 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductController : ControllerBase
+public class ProductsController : ControllerBase
 {
-    private ProductService _productService;
+    private ProductsService _productsService;
     private IMapper _mapper;
 
-    public ProductController(
-        ProductService productService,
+    public ProductsController(
+        ProductsService productService,
         IMapper mapper)
     {
-        _productService = productService;
+        _productsService = productService;
         _mapper = mapper;
     }
 
     [HttpGet]
     public IActionResult GetAll()
     {
-        var products = _productService.GetAll();
+        var products = _productsService.GetAll();
 
         return Ok(products);
     }
@@ -28,28 +28,28 @@ public class ProductController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        var product = _productService.GetById(id);
+        var product = _productsService.GetById(id);
         return Ok(product);
     }
 
     [HttpPost]
     public IActionResult Create(Product model)
     {
-        _productService.Create(model);
+        _productsService.Create(model);
         return Ok(new { message = "product created" });
     }
 
     [HttpPut("{id}")]
     public IActionResult Update(int id, Product model)
     {
-        _productService.Update(id, model);
+        _productsService.Update(id, model);
         return Ok(new { message = "Product updated" });
     }
 
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        _productService.Delete(id);
+        _productsService.Delete(id);
         return Ok(new { message = "Product deleted" });
     }
 }
