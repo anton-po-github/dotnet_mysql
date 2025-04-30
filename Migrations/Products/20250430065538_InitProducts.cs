@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace dotnet_mysql.Migrations.Product
+namespace dotnet_mysql.Migrations.Products
 {
     /// <inheritdoc />
-    public partial class InitProductContext : Migration
+    public partial class InitProducts : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

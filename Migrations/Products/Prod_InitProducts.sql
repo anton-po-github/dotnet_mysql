@@ -10,7 +10,7 @@ DROP PROCEDURE IF EXISTS MigrationsScript;
 DELIMITER //
 CREATE PROCEDURE MigrationsScript()
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `migration_id` = '20250428120647_InitProductContext') THEN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `migration_id` = '20250430065538_InitProducts') THEN
 
     ALTER DATABASE CHARACTER SET utf8mb4;
 
@@ -24,7 +24,7 @@ DROP PROCEDURE IF EXISTS MigrationsScript;
 DELIMITER //
 CREATE PROCEDURE MigrationsScript()
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `migration_id` = '20250428120647_InitProductContext') THEN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `migration_id` = '20250430065538_InitProducts') THEN
 
     CREATE TABLE `products` (
         `id` int NOT NULL AUTO_INCREMENT,
@@ -45,10 +45,10 @@ DROP PROCEDURE IF EXISTS MigrationsScript;
 DELIMITER //
 CREATE PROCEDURE MigrationsScript()
 BEGIN
-    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `migration_id` = '20250428120647_InitProductContext') THEN
+    IF NOT EXISTS(SELECT 1 FROM `__EFMigrationsHistory` WHERE `migration_id` = '20250430065538_InitProducts') THEN
 
     INSERT INTO `__EFMigrationsHistory` (`migration_id`, `product_version`)
-    VALUES ('20250428120647_InitProductContext', '8.0.2');
+    VALUES ('20250430065538_InitProducts', '8.0.2');
 
     END IF;
 END //

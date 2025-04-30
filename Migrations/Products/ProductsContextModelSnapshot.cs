@@ -2,19 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace dotnet_mysql.Migrations.Product
+namespace dotnet_mysql.Migrations.Products
 {
-    [DbContext(typeof(ProductContext))]
-    [Migration("20250428120736_AddNewProductTable")]
-    partial class AddNewProductTable
+    [DbContext(typeof(ProductsContext))]
+    partial class ProductsContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,35 +19,6 @@ namespace dotnet_mysql.Migrations.Product
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
-
-            modelBuilder.Entity("NewProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("description");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("name");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int")
-                        .HasColumnName("price");
-
-                    b.HasKey("Id")
-                        .HasName("pk_new_product");
-
-                    b.ToTable("new_product", (string)null);
-                });
 
             modelBuilder.Entity("Product", b =>
                 {

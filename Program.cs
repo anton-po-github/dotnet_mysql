@@ -26,7 +26,7 @@ services.AddCors(options =>
 services.AddSwaggerGen();
 
 services.AddDbContext<UsersContext>();
-services.AddDbContext<ProductContext>();
+services.AddDbContext<ProductsContext>();
 services.AddDbContext<IdentityContext>();
 
 services.AddIdentityServices(builder.Configuration);
@@ -80,7 +80,7 @@ if (app.Environment.IsDevelopment())
         {
             sp.GetRequiredService<UsersContext>(),
             sp.GetRequiredService<IdentityContext>(),
-            sp.GetRequiredService<ProductContext>(),
+            sp.GetRequiredService<ProductsContext>(),
         };
 
         foreach (var ctx in contexts)

@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 
-public class ProductContext : DbContext
+public class ProductsContext : DbContext
 {
     protected readonly IConfiguration _config;
-    public ProductContext(IConfiguration config)
+    public ProductsContext(IConfiguration config)
     {
         _config = config;
     }
@@ -18,5 +18,4 @@ public class ProductContext : DbContext
     }
 
     public DbSet<Product> Products { get; set; }
-    public DbSet<NewProduct> NewProduct { get; set; }
 }
