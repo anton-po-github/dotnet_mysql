@@ -26,9 +26,10 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public IActionResult GetById(Guid id)
     {
         var product = _productsService.GetById(id);
+
         return Ok(product);
     }
 
@@ -36,20 +37,23 @@ public class ProductsController : ControllerBase
     public IActionResult Create(Product model)
     {
         _productsService.Create(model);
+
         return Ok(new { message = "product created" });
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, Product model)
+    public IActionResult Update(Guid id, Product model)
     {
         _productsService.Update(id, model);
+
         return Ok(new { message = "Product updated" });
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public IActionResult Delete(Guid id)
     {
         _productsService.Delete(id);
+
         return Ok(new { message = "Product deleted" });
     }
 }

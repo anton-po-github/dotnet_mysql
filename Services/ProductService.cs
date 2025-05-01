@@ -18,52 +18,49 @@ public class ProductsService
         return _context.Products;
     }
 
-    public Product GetById(int id)
+    public Product GetById(Guid id)
     {
         return getProduct(id);
     }
 
     public void Create(Product model)
     {
-        // validate
-        /* if (_context.Products.Any(x => x.Email == model.Email))
-            throw new AppException("User with the email '" + model.Email + "' already exists"); */
-
-        // map model to new user object
         var product = _mapper.Map<Product>(model);
 
-        // save user
         _context.Products.Add(product);
+
         _context.SaveChanges();
     }
 
-    public void Update(int id, Product model)
+    public void Update(Guid id, Product model)
     {
-        var user = getProduct(id);
+        var product = getProduct(id);
 
-        // validate
-        /*    if (model.Email != user.Email && _context.Users.Any(x => x.Email == model.Email))
-               throw new AppException("User with the email '" + model.Email + "' already exists"); */
+        product.Price = model.Price;
+        product.Discount = model.Discount;
+        product.ProductName = model.ProductName;
+        product.ProductDescription = model.ProductDescription;
 
-        // copy model to user and save
-        _mapper.Map(model, user);
-        _context.Products.Update(user);
+        _context.Products.Update(product);
+
         _context.SaveChanges();
     }
 
-    public void Delete(int id)
+    public void Delete(Guid id)
     {
-        var user = getProduct(id);
-        _context.Products.Remove(user);
+        var product = getProduct(id);
+
+        _context.Products.Remove(product);
+
         _context.SaveChanges();
     }
 
-    // helper methods
-
-    private Product getProduct(int id)
+    private Product getProduct(Guid id)
     {
         var product = _context.Products.Find(id);
-        if (product == null) throw new KeyNotFoundException("User not found");
+
+        if (product == null) throw new KeyNotFoundException("Product not found");
+
         return product;
     }
 }
