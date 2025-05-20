@@ -100,11 +100,6 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-using (var scopeRole = app.Services.CreateScope())
-{
-    await IdentitySeeder.SeedRolesAsync(scopeRole.ServiceProvider);
-}
-
 using (var scope = app.Services.CreateScope())
 {
     var servicesProvider = scope.ServiceProvider;

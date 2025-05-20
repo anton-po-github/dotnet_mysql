@@ -1,4 +1,4 @@
-@dotnet_mysql_HostAddress = http://localhost:5235
+@dotnet_mysql_HostAddress = http://localhost:4233
 
 GET {{dotnet_mysql_HostAddress}}/weatherforecast/
 Accept: application/json
